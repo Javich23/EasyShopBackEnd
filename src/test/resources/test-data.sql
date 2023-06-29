@@ -1,4 +1,3 @@
-
 CREATE TABLE users (
                        user_id INT NOT NULL AUTO_INCREMENT,
                        username VARCHAR(50) NOT NULL,

@@ -22,6 +22,7 @@ public class MySqlCategoryDao extends MySqlDaoBase implements CategoryDao
         super(dataSource);
     }
 
+    // method to retrieve all the categories from sql database
     @Override
     public List<Category> getAllCategories()
     {
@@ -40,7 +41,7 @@ public class MySqlCategoryDao extends MySqlDaoBase implements CategoryDao
 
         return categories;
     }
-
+    // method to retrieve specific category depending on category_id in database
     @Override
     public Category getById(int categoryId)
     {
@@ -70,7 +71,7 @@ public class MySqlCategoryDao extends MySqlDaoBase implements CategoryDao
         return category;
     }
 
-
+    // below are the create, update, and delete methods
     @Override
     public Category create(Category category)
     {
@@ -87,19 +88,10 @@ public class MySqlCategoryDao extends MySqlDaoBase implements CategoryDao
             int rowsAffected = statement.executeUpdate();
 
             if (rowsAffected > 0) {
-                // Retrieve the generated keys
                 ResultSet generatedKeys = statement.getGeneratedKeys();
-
                 if (generatedKeys.next()) {
-                    // Retrieve the auto-incremented ID
                     int categoryId = generatedKeys.getInt(1);
-
-                    // get the newly inserted category
-//                    return getById(categoryId);
-
                     category.setCategoryId(categoryId);
-//                    return category;
-
                 }
             }
         }
@@ -150,6 +142,7 @@ public class MySqlCategoryDao extends MySqlDaoBase implements CategoryDao
         }
     }
 
+    // this method serves the person of mapping the resultSet and retrieving it from  the database
     private Category mapRow(ResultSet row) throws SQLException
     {
         int categoryId = row.getInt("category_id");

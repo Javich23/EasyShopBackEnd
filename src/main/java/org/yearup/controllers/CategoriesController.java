@@ -24,14 +24,13 @@ public class CategoriesController {
     private CategoryDao categoryDao;
 
     private ProductDao productDao;
+// create an Autowired controller to inject the categoryDao and ProductDao
 
     @Autowired
     public CategoriesController(CategoryDao categoryDao, ProductDao productDao) {
         this.categoryDao = categoryDao;
         this.productDao = productDao;
     }
-// create an Autowired controller to inject the categoryDao and ProductDao
-
     // add the appropriate annotation for a get action
     @GetMapping
     @PreAuthorize("permitAll()")
@@ -65,11 +64,11 @@ public class CategoriesController {
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public Category addCategory(@RequestBody Category category) {
-//        try {
+        try {
             return categoryDao.create(category);
-//        } catch (Exception ex) {
-//            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops... our bad.");
-//        }
+        } catch (Exception ex) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops... our bad.");
+        }
     }
 
     // add annotation to call this method for a PUT (update) action - the url path must include the categoryId

@@ -7,7 +7,6 @@ import java.math.BigDecimal;
 public class ShoppingCartItem
 {
     private Product product = null;
-    private int productId;
     private int quantity = 1;
     private BigDecimal discountPercent = BigDecimal.ZERO;
 
@@ -42,14 +41,10 @@ public class ShoppingCartItem
         this.discountPercent = discountPercent;
     }
 
-//    @JsonIgnore
+    @JsonIgnore
     public int getProductId()
     {
         return this.product.getProductId();
-    }
-
-    public void setProductId(int getProductId) {
-        this.productId = getProductId;
     }
 
     public BigDecimal getLineTotal()

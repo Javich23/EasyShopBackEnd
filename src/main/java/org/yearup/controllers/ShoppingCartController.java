@@ -20,12 +20,11 @@ import java.security.Principal;
 // only logged in users should have access to these actions
 @RestController
 @CrossOrigin
-@RequestMapping("/cart")
+@RequestMapping("cart")
 public class ShoppingCartController {
     private ShoppingCartDao shoppingCartDao;
     private UserDao userDao;
     private ProductDao productDao;
-    private ShoppingCart shoppingCart;
 
     @Autowired
     public ShoppingCartController(ShoppingCartDao shoppingCartDao, UserDao userDao, ProductDao productDao) {
@@ -56,7 +55,7 @@ public class ShoppingCartController {
             ShoppingCartItem item = new ShoppingCartItem();
             item.setProduct(cartItem.getProduct());
             item.setQuantity(cartItem.getQuantity());
-            item.setProductId(cartItem.getProductId());
+            item.getProductId();
 
             // Add the item to the shopping cart
             shoppingCart.add(item);

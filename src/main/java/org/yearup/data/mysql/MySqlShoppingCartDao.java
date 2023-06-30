@@ -34,13 +34,13 @@ public class MySqlShoppingCartDao extends MySqlDaoBase implements ShoppingCartDa
         return shoppingCarts.get(userId);
     }
 
-    @Override
-    public List<ShoppingCart> getAll() {
-        return new ArrayList<>(shoppingCarts.values());
-    }
+//    @Override
+//    public List<ShoppingCart> getAll() {
+//        return new ArrayList<>(shoppingCarts.values());
+//    }
 
     @Override
-    public void addProduct(int userId, ShoppingCartItem item) {
+    public void addItem(int userId, ShoppingCartItem item) {
         ShoppingCart shoppingCart = shoppingCarts.getOrDefault(userId, new ShoppingCart());
         shoppingCart.getItems().put(item.getProductId(), item);
         shoppingCarts.put(userId, shoppingCart);
@@ -48,7 +48,7 @@ public class MySqlShoppingCartDao extends MySqlDaoBase implements ShoppingCartDa
 
 
     @Override
-    public void removeProduct(int userId, int productId) {
+    public void removeItem(int userId, int productId) {
         ShoppingCart shoppingCart = shoppingCarts.get(userId);
         if (shoppingCart != null) {
             Map<Integer, ShoppingCartItem> items = shoppingCart.getItems();

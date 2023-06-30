@@ -10,15 +10,11 @@ import java.util.List;
 public interface ShoppingCartDao {
     ShoppingCart getByUserId(int userId);
 
-    List<ShoppingCart> getAll();
+    void addItem(int userId, ShoppingCartItem item);
 
-    void addProduct(int userId, ShoppingCartItem item);
-
-    void removeProduct(int userId, int productId);
+    void removeItem(int userId, int productId);
 
     void updateProductQuantity(int userId, int productId, int quantity);
-
-    BigDecimal calculateTotalPrice(int userId);
 
     void update(int userId, ShoppingCartItem item);
 

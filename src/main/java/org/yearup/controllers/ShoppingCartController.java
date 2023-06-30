@@ -9,7 +9,6 @@ import org.springframework.web.server.ResponseStatusException;
 import org.yearup.data.ProductDao;
 import org.yearup.data.ShoppingCartDao;
 import org.yearup.data.UserDao;
-import org.yearup.models.Product;
 import org.yearup.models.ShoppingCart;
 import org.yearup.models.ShoppingCartItem;
 import org.yearup.models.User;
@@ -19,8 +18,9 @@ import java.security.Principal;
 // convert this class to a REST controller
 // only logged in users should have access to these actions
 @RestController
-@CrossOrigin
 @RequestMapping("cart")
+@CrossOrigin
+@PreAuthorize("hasRole('ROLE_ADMIN')")
 public class ShoppingCartController {
     private ShoppingCartDao shoppingCartDao;
     private UserDao userDao;
@@ -34,7 +34,7 @@ public class ShoppingCartController {
     }
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+//    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ShoppingCart getCart(Principal principal) {
         try {
             String userName = principal.getName();
@@ -48,23 +48,22 @@ public class ShoppingCartController {
 
 
     @PostMapping("/cart/products/{productId}")
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
-    public ResponseEntity<String> addProduct(@RequestBody ShoppingCartItem cartItem) {
+    public ResponseEntity<String> addProduct(@RequestBody ShoppingCartItem cartItem, Principal principal) {
         try {
-            // Create a new ShoppingCartItem
-            ShoppingCartItem item = new ShoppingCartItem();
-            item.setProduct(cartItem.getProduct());
-            item.setQuantity(cartItem.getQuantity());
-            item.getProductId();
+            String username = principal.getName(); // Get the username
 
-            // Add the item to the shopping cart
-            shoppingCart.add(item);
+            // Retrieve the user ID based on the username
+            int userId = userDao.getIdByUsername(username); // Replace with your logic to get the user ID
+
+            // Add the item to the shopping cart in the database
+            shoppingCartDao.addItem(userId, cartItem);
 
             return ResponseEntity.ok("Product added to the shopping cart successfully.");
         } catch (Exception ex) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Failed to add product to the shopping cart.", ex);
         }
     }
+
 
 
 
